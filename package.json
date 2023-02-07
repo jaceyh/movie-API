@@ -17,8 +17,5 @@
   "bugs": {
     "url": "https://github.com/jaceyh/jMDB-API/issues"
   },
-  "homepage": "https://github.com/jaceyh/jMDB-API#readme",
-  "dependencies": {
-    "lodash": "^4.17.21"
-  }
+  "homepage": "https://github.com/jaceyh/jMDB-API#readme"
 }
