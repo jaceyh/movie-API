@@ -63,23 +63,28 @@ app.get('/', (req, res) => {
     res.send('Welcome to jMDB');
   });
   
+/*
 app.get('/documentation', (req, res) => {                  
     res.sendFile('public/documentation.html', { root: __movie_api });
   });
+*/
+//Using Express
+app.use('/documentation', express.static('public'));
   
 app.get('/movies', (req, res) => {
     res.json(topMovies);
   });
+
+//
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
   });
 
-
+ 
   
-  
-  // listen for requests
+// listen for requests
   app.listen(8080, () => {
     console.log('Your app is listening on port 8080.');
   });
