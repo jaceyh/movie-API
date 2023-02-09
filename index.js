@@ -7,7 +7,7 @@ const app = express();
 
 // create a write stream (in append mode)
 // a ‘log.txt’ file is created in root directory
-const accessLogStream = fs.createWriteStream(path.join(__movie_api, 'log.txt'), {flags: 'a'})
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 
 
 let topMovies = [
