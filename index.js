@@ -62,27 +62,21 @@ app.use(morgan('combined', {stream: accessLogStream}));
 app.get('/', (req, res) => {
     res.send('Welcome to jMDB');
   });
-  
-/*
-app.get('/documentation', (req, res) => {                  
-    res.sendFile('public/documentation.html', { root: __movie_api });
-  });
-*/
-//Using Express
-app.use('/documentation', express.static('public'));
-  
+
 app.get('/movies', (req, res) => {
     res.json(topMovies);
   });
+  
+app.use('/documentation', express.static('public'));
+  
 
-//
-
+//error handling with express
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
   });
 
- 
+
   
 // listen for requests
   app.listen(8080, () => {
