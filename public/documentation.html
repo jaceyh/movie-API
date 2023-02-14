@@ -1,9 +1,12 @@
 <!DOCTYPE html>
+<html>
 <head>
     <title>jMDB - Jacey's Movie Database</title>
     <style>
+        body {
+            font-family:Arial, Helvetica, sans-serif
+        }
         table {
-            font-family: Arial, Helvetica, sans-serif;
             width:100%;
             border-collapse: collapse;
         }
@@ -23,7 +26,8 @@
 <body>
     <div>
     jMDB is an API that allows users to request movie data.<br>
-    Users may request data such as genre, director, and cast.
+    <br>
+    Users may request data such as genre, director, and cast.<br>
     Users may register to create a personalized experience that allows them to add movies to a "Favorites" list.<br>
     </div>
     <table>
@@ -60,12 +64,90 @@
             <td>JSON object holding data for specified director</td>
         </tr>
         <tr>
-            <td>Get data for a director</td>
-            <td>/movies/[Director]</td>
+            <td>Get data for a tag</td>
+            <td>/movies/[tag]</td>
             <td class="code">GET</td>
+            <td>:genre</td>
             <td>none</td>
+            <td>JSON object holding data for movies with specified tag</td>
+        </tr>
+        <tr>
+            <td>Create user account</td>
+            <td>/register</td>
+            <td class="code">POST</td>
+            <td>username and password required</td>
+            <td>JSON object holding desired username and password<br>
+                <p> { <br>
+                   username: 'Jane Doe'<br>
+                   password: 'xxxxxxxx'<br>
+                    }
+                </p>
+            </td>
+            <td>Status 201 and return user created data with id
+                <p> { <br>
+                    id: 13<br>
+                    username: 'Jane Doe'<br>
+                    password: 'xxxxxxxx'<br>
+                     }
+                 </p>
+            </td>
+        </tr>
+        <tr>
+            <td>Update Username</td>
+            <td>/users/updateusername/[id]</td>
+            <td class="code">PUT</td>
+            <td>:id</td>
             <td>none</td>
-            <td>JSON object</td>
+            <td>Text response</td>
+        </tr>
+        <tr>
+            <td>Update Password</td>
+            <td>/users/updatepwd/[id]</td>
+            <td class="code">PUT</td>
+            <td>:id</td>
+            <td>none</td>
+            <td>Text response</td>
+        </tr>
+        <tr>
+            <td>Delete User Account</td>
+            <td>/users/delete/[id]</td>
+            <td class="code">DELETE</td>
+            <td>:id</td>
+            <td>none</td>
+            <td>Text response</td>
+        </tr>
+        <tr>
+            <td>Add Movie to Favorites</td>
+            <td>/users/[id]/favorites/[movie title]</td>
+            <td class="code">PUT</td>
+            <td>:id, :title </td>
+            <td>none</td>
+            <td>Text response indicating movie title was added to your favorites.</td>
+        </tr>
+        <tr>
+            <td>Add Movie to Watchlist</td>
+            <td>/users/[id]/watchlist/[movie title]</td>
+            <td class="code">PUT</td>
+            <td>:id, :title</td>
+            <td>none</td>
+            <td>Text response indicating movie title was added to your watchlist.</td>
+        </tr>
+        <tr>
+            <td>Remove Movie from Favorites</td>
+            <td>/users/[id]/favorites/delete/[movie title]</td>
+            <td class="code">DELETE</td>
+            <td>:id, :title </td>
+            <td>none</td>
+            <td>Text response indicating movie title was  removed from your favorites.</td>
+        </tr>
+        <tr>
+            <td>Remove Movie from Watchlist</td>
+            <td>/users/[id]/watchlist/delete/[movie title]</td>
+            <td class="code">DELETE</td>
+            <td>:id, :title</td>
+            <td>none</td>
+            <td>Text response indicating movie title was removed from your watchlist.</td>
         </tr>
     </table>
 </body>
+</html>

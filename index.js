@@ -93,7 +93,65 @@ app.get('/movies/:tags', (req, res) => {
   });
   
 app.use('/documentation.html', express.static('public/documentation.html'));
-  
+
+
+//POST requests
+app.post('/user', (req, res) => {
+  let newUser = req.body;
+
+  if (!newUser.username) {
+    const message = 'Missing "usernamename" in request body';
+    res.status(400).send(message);
+  } else {
+    newUser.id = uuid.v4();
+    users.push(newUser);
+    res.status(201).send(newUser);
+  }
+});
+
+
+//DELETE user account request
+app.delete('/user/delete/:id', (req, res) => {
+  users.find((user) => { return user.id === req.params.id });
+
+  if (user) {
+    users = users.filter((obj) => { return obj.id !== req.params.id });
+    res.status(201).send('User ' + req.params.id + ' was deleted.');
+  }
+});
+
+
+//PUT requests (add to favorites, add to watchlist, update user info)
+app.put('/user/:id/favorites/:title', (req, res) => {
+  let newFavorite = movies.find((movie) => { return movie.title === req.params.title });
+    users.push(newFavorite);
+    res.status(201).send(newFavorite + 'was added to your favorites.');
+  }
+);
+
+app.put('/user/:id/watchlist/:title', (req, res) => {
+  let newWatchlist = movies.find((movie) => { return movie.title === req.params.title });
+    users.push(newWatchlist);
+    res.status(201).send(newWatchlist + 'was added to your watchlist.');
+  }
+);
+
+app.put('/user/updateusername/:id', (req, res) => {
+  res.send('Would you like to update your username?');
+});
+
+app.put('/user/updatepwd/:id', (req, res) => {
+  res.send('Would you like to update your password?');
+});
+
+//DELETE Remove from favorites or watchlist
+app.delete('/user/:id/favorites/delete/:title', (req, res) => {
+  res.status(201).send(title + ' was deleted from your favorites.');
+});
+
+app.delete('/user/:id/watchlist/delete/:title', (req, res) => {
+  res.status(201).send(title + ' was deleted from your favorites.');
+});
 
 //error handling with express
 app.use((err, req, res, next) => {
