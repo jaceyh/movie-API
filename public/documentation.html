@@ -1,6 +1,71 @@
 <!DOCTYPE html>
+<head>
+    <title>jMDB - Jacey's Movie Database</title>
+    <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            width:100%;
+            border-collapse: collapse;
+        }
+        td, th {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #ddd;
+        }
+        .code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
 <body>
+    <div>
     jMDB is an API that allows users to request movie data.<br>
     Users may request data such as genre, director, and cast.
-    Users may register to create a personalized experience that allows them to add movies to a "Favorites" list.
+    Users may register to create a personalized experience that allows them to add movies to a "Favorites" list.<br>
+    </div>
+    <table>
+        <tr>
+            <th>Request</th>
+            <th>URL</th>
+            <th>Request Method</th>
+            <th>Parameters</th>
+            <th>Request Format</th>
+            <th>Response Format</th>
+        </tr>
+        <tr>
+            <td>Get list of movies</td>
+            <td>/movies</td>
+            <td class="code">GET</td>
+            <td>none</td>
+            <td>none</td>
+            <td>JSON object holding data for all movies</td>
+        </tr>
+        <tr>
+            <td>Get data for a single movie</td>
+            <td>/movies/[title]</td>
+            <td class="code">GET</td>
+            <td>:title</td>
+            <td>none</td>
+            <td>JSON object holding data for specified movie</td>
+        </tr>
+        <tr>
+            <td>Get data for a director</td>
+            <td>/movies/[director]</td>
+            <td class="code">GET</td>
+            <td>:director</td>
+            <td>none</td>
+            <td>JSON object holding data for specified director</td>
+        </tr>
+        <tr>
+            <td>Get data for a director</td>
+            <td>/movies/[Director]</td>
+            <td class="code">GET</td>
+            <td>none</td>
+            <td>none</td>
+            <td>JSON object</td>
+        </tr>
+    </table>
 </body>

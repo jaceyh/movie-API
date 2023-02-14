@@ -10,46 +10,56 @@ const app = express();
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 
 
-let topMovies = [
+let movies = [
     {
-        title: 'Free Solo',
-        director: 'Jimmy Chin Elizabeth Chai Vasarhelyi'
+      title: 'Free Solo',
+      director: 'Jimmy Chin Elizabeth Chai Vasarhelyi',
+      tags: 'action',
     },
     {
-        title: '13th',
-        director: 'Ava DuVernay'
+      title: '13th',
+      director: 'Ava DuVernay',
+      tags: 'socio-cultural, history'
     },
     {
-        title: 'My Octopus Teacher',
-        director: 'Pippa Ehrlich James Reed'
+      title: 'My Octopus Teacher',
+      director: 'Pippa Ehrlich James Reed',
+      tags: 'animals',
     },
     {
-        title: 'Blackfish',
-        director: 'Gabriele Cowperthwaite'
-      },
-    {
-        title: 'The Last Breath',
-        director: 'Richard da Costa Alex Parkinson'
+      title: 'Blackfish',
+      director: 'Gabriele Cowperthwaite',
+      tags: 'socio-cultural, animals',
     },
     {
-        title: 'The Volcano: Rescue from Whakaari',
-        director: 'Rory Kennedy'
+      title: 'The Last Breath',
+      director: 'Richard da Costa Alex Parkinson',
+      tags: 'action',
     },
     {
-        title: 'The Alpinist',
-        director: 'Peter Mortimer Nick Rosen '
+      title: 'The Volcano: Rescue from Whakaari',
+      director: 'Rory Kennedy',
+      tags: 'action, natural disaster',
+    },
+    {
+      title: 'The Alpinist',
+      director: 'Peter Mortimer Nick Rosen ',
+      tags: 'action',
     },    
     {
-        title: 'Aftershock',
-        director: 'Paula Eiselt Tonya Lewis Lee '
+      title: 'Aftershock',
+      director: 'Paula Eiselt Tonya Lewis Lee ',
+      tags: 'action, natural disaster',
     },
     {
-        title: 'Challenger: The Final Flight',
-        director: 'Daniel Junge Steven Leckart'
+      title: 'Challenger: The Final Flight',
+      director: 'Daniel Junge Steven Leckart',
+      tags: 'action, historical',
     },
     {
-        title: 'Citizenfour',
-        director: 'Laura Poitras'
+      title: 'Citizenfour',
+      director: 'Laura Poitras',
+      tags: 'socio-cultural',
     },
   ];
 
@@ -64,7 +74,22 @@ app.get('/', (req, res) => {
   });
 
 app.get('/movies', (req, res) => {
-    res.json(topMovies);
+    res.status(200).json(movies);
+  });
+
+app.get('/movies/:title', (req, res) => {
+  res.json(movies.find((movie) =>
+    { return movie.title === req.params.title }));
+  });
+
+app.get('/movies/:director', (req, res) => {
+  res.json(movies.find((movie) =>
+    { return movie.director === req.params.director }));
+  });
+
+app.get('/movies/:tags', (req, res) => {
+    res.json(movies.find((movie) =>
+      { return movie.tags === req.params.tags }));
   });
   
 app.use('/documentation.html', express.static('public/documentation.html'));
