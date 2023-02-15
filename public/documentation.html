@@ -57,7 +57,7 @@
         </tr>
         <tr>
             <td>Get data for a director</td>
-            <td>/movies/[director]</td>
+            <td>/movies/director/[director]</td>
             <td class="code">GET</td>
             <td>:director</td>
             <td>none</td>
@@ -65,21 +65,20 @@
         </tr>
         <tr>
             <td>Get data for a tag</td>
-            <td>/movies/[tag]</td>
+            <td>/movies/tags/[tag]</td>
             <td class="code">GET</td>
-            <td>:genre</td>
+            <td>:tag</td>
             <td>none</td>
             <td>JSON object holding data for movies with specified tag</td>
         </tr>
         <tr>
             <td>Create user account</td>
-            <td>/register</td>
+            <td>/user</td>
             <td class="code">POST</td>
-            <td>username and password required</td>
-            <td>JSON object holding desired username and password<br>
+            <td>:username</td>
+            <td>JSON object holding desired username<br>
                 <p> { <br>
                    username: 'Jane Doe'<br>
-                   password: 'xxxxxxxx'<br>
                     }
                 </p>
             </td>
@@ -93,16 +92,8 @@
             </td>
         </tr>
         <tr>
-            <td>Update Username</td>
-            <td>/users/updateusername/[id]</td>
-            <td class="code">PUT</td>
-            <td>:id</td>
-            <td>none</td>
-            <td>Text response</td>
-        </tr>
-        <tr>
-            <td>Update Password</td>
-            <td>/users/updatepwd/[id]</td>
+            <td>Update User Info</td>
+            <td>/users/update/[id]</td>
             <td class="code">PUT</td>
             <td>:id</td>
             <td>none</td>

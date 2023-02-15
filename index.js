@@ -1,7 +1,9 @@
-const express = require ('express');
-    morgan = require('morgan');
-    fs = require('fs'), // import built in node modules fs and path 
-    path = require('path');
+const express = require ('express'),
+  fs = require('fs'), // import built in node modules fs and path 
+  path = require('path'),
+  bodyParser = require('body-parser'),
+  uuid = require('uuid'),
+  morgan = require('morgan');
   
 const app = express();
 
@@ -68,6 +70,9 @@ let movies = [
   ];
 
 
+let users = [];
+
+
 // GET requests
 app.get('/', (req, res) => {
     res.send('Welcome to jMDB');
@@ -82,12 +87,12 @@ app.get('/movies/:title', (req, res) => {
     { return movie.title === req.params.title }));
   });
 
-app.get('/movies/:director', (req, res) => {
+app.get('/movies/director/:director', (req, res) => {
   res.json(movies.find((movie) =>  
     { return movie.director === req.params.director }));
   });
 
-app.get('/movies/:tags', (req, res) => {
+app.get('/movies/tags/:tags', (req, res) => {
     res.json(movies.find((movie) =>
       { return movie.tags === req.params.tags }));
   });
@@ -97,15 +102,15 @@ app.use('/documentation.html', express.static('public/documentation.html'));
 
 //POST requests
 app.post('/user', (req, res) => {
-  let newUser = req.body;
-
-  if (!newUser.username) {
-    const message = 'Missing "usernamename" in request body';
+  //res.send('You want to create an account.  Great!  Idk how to code that yet.')});
+let newUser = req.body;
+  if (!newUser.username === '') {
+    const message = 'Missing "username" in request body';
     res.status(400).send(message);
   } else {
     newUser.id = uuid.v4();
     users.push(newUser);
-    res.status(201).send(newUser);
+    res.status(201).send(newUser + 'account created');
   }
 });
 
