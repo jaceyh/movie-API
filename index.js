@@ -70,7 +70,12 @@ let movies = [
   ];
 
 
-let users = [];
+let users = [
+  {
+    username: "jaceyh",
+    password: "test123"
+  }
+];
 
 
 // GET requests
@@ -103,14 +108,14 @@ app.use('/documentation.html', express.static('public/documentation.html'));
 //POST requests
 app.post('/user', (req, res) => {
   //res.send('You want to create an account.  Great!  Idk how to code that yet.')});
-let newUser = req.body;
+const newUser = req.body;
   if (!newUser.username === '') {
     const message = 'Missing "username" in request body';
     res.status(400).send(message);
   } else {
     newUser.id = uuid.v4();
     users.push(newUser);
-    res.status(201).send(newUser + 'account created');
+    res.status(201).json(newUser);
   }
 });
 
@@ -126,14 +131,29 @@ app.delete('/user/delete/:id', (req, res) => {
 });
 
 
-//PUT requests (add to favorites, add to watchlist, update user info)
-app.put('/user/:id/favorites/:title', (req, res) => {
+//PUT requests (add to favorites, add to watchlist, UPDATE user info)
+app.put('/user/:id', (req, res) => {
+  //res.send('You want to create an account.  Great!  Idk how to code that yet.')});
+  const { id } = req.params
+  const updatedUser = req.body;
+
+  let user = user.find(user => user.id == id);
+
+  if (user) {
+    user.username = updatedUser.username;
+    res.status(200).json(user);
+  } else {
+    res.status(400).send('User not found.')
+  }
+});
+
+/*app.put('/user/:id/favorites/:title', (req, res) => {
   let newFavorite = movies.find((movie) => { return movie.title === req.params.title });
-    users.push(newFavorite);
+    users[id].push(newFavorite);
     res.status(201).send(newFavorite + 'was added to your favorites.');
   }
 );
-
+*/
 app.put('/user/:id/watchlist/:title', (req, res) => {
   let newWatchlist = movies.find((movie) => { return movie.title === req.params.title });
     users.push(newWatchlist);
@@ -141,13 +161,10 @@ app.put('/user/:id/watchlist/:title', (req, res) => {
   }
 );
 
-app.put('/user/updateusername/:id', (req, res) => {
-  res.send('Would you like to update your username?');
+app.put('/user/update/:id', (req, res) => {
+  res.send('Would you like to update your username or password?');
 });
 
-app.put('/user/updatepwd/:id', (req, res) => {
-  res.send('Would you like to update your password?');
-});
 
 //DELETE Remove from favorites or watchlist
 app.delete('/user/:id/favorites/delete/:title', (req, res) => {
