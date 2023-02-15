@@ -5,10 +5,14 @@ const express = require ('express');
   
 const app = express();
 
+app.use(bodyParser.json());
+
 // create a write stream (in append mode)
 // a ‘log.txt’ file is created in root directory
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 
+// setup the logger
+app.use(morgan('combined', {stream: accessLogStream}));
 
 let movies = [
     {
@@ -63,10 +67,6 @@ let movies = [
     },
   ];
 
-// setup the logger
-app.use(morgan('combined', {stream: accessLogStream}));
-
-
 
 // GET requests
 app.get('/', (req, res) => {
@@ -83,7 +83,7 @@ app.get('/movies/:title', (req, res) => {
   });
 
 app.get('/movies/:director', (req, res) => {
-  res.json(movies.find((movie) =>
+  res.json(movies.find((movie) =>  
     { return movie.director === req.params.director }));
   });
 
