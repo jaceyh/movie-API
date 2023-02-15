@@ -72,8 +72,14 @@ let movies = [
 
 let users = [
   {
+    id: "1",
     username: "jaceyh",
-    password: "test123"
+    favoriteMovies: []
+  },
+  {
+    id: "2",
+    username: "leetj",
+    favoriteMovies: []
   }
 ];
 
@@ -134,10 +140,10 @@ app.delete('/user/delete/:id', (req, res) => {
 //PUT requests (add to favorites, add to watchlist, UPDATE user info)
 app.put('/user/:id', (req, res) => {
   //res.send('You want to create an account.  Great!  Idk how to code that yet.')});
-  const { id } = req.params
+  const { id } = req.params;
   const updatedUser = req.body;
 
-  let user = user.find(user => user.id == id);
+  let user = users.find(user => user.id == id);
 
   if (user) {
     user.username = updatedUser.username;
