@@ -74,12 +74,14 @@ let users = [
   {
     id: "1",
     username: "jaceyh",
-    favoriteMovies: []
+    favoriteMovies: [],
+    watchlistMovies: [],
   },
   {
     id: "2",
     username: "leetj",
-    favoriteMovies: []
+    favoriteMovies: [],
+    watchlistMovies: [],
   }
 ];
 
@@ -128,18 +130,21 @@ const newUser = req.body;
 
 //DELETE user account request
 app.delete('/user/delete/:id', (req, res) => {
-  users.find((user) => { return user.id === req.params.id });
+  const { id } = req.params;
+
+  let user = users.find(user => user.id == id);
 
   if (user) {
-    users = users.filter((obj) => { return obj.id !== req.params.id });
-    res.status(201).send('User ' + req.params.id + ' was deleted.');
+    users = users.filter( user => user.id != id );
+    res.status(201).send('User was deleted.');
+  } else {
+    res.status(400).send('User not found.')
   }
 });
 
 
 //PUT requests (add to favorites, add to watchlist, UPDATE user info)
 app.put('/user/:id', (req, res) => {
-  //res.send('You want to create an account.  Great!  Idk how to code that yet.')});
   const { id } = req.params;
   const updatedUser = req.body;
 
@@ -153,33 +158,45 @@ app.put('/user/:id', (req, res) => {
   }
 });
 
-/*app.put('/user/:id/favorites/:title', (req, res) => {
-  let newFavorite = movies.find((movie) => { return movie.title === req.params.title });
-    users[id].push(newFavorite);
-    res.status(201).send(newFavorite + 'was added to your favorites.');
+app.put('/user/:id/favorites/:title', (req, res) => {
+  const { id, movieTitle } = req.params;
+  
+  let user = users.find(user => user.id == id);
+
+    user.favoriteMovies.push(movieTitle);
+    res.status(200).send('Movie was added to your favorites.');
   }
 );
-*/
+
 app.put('/user/:id/watchlist/:title', (req, res) => {
-  let newWatchlist = movies.find((movie) => { return movie.title === req.params.title });
-    users.push(newWatchlist);
-    res.status(201).send(newWatchlist + 'was added to your watchlist.');
+  const { id, movieTitle } = req.params;
+  
+  let user = users.find(user => user.id == id);
+
+    user.watchlistMovies.push(movieTitle);
+    res.status(200).send('Movie was added to your watchlist.');
   }
 );
-
-app.put('/user/update/:id', (req, res) => {
-  res.send('Would you like to update your username or password?');
-});
-
 
 //DELETE Remove from favorites or watchlist
 app.delete('/user/:id/favorites/delete/:title', (req, res) => {
-  res.status(201).send(title + ' was deleted from your favorites.');
+  const { id, movieTitle } = req.params;
+  
+  let user = users.find(user => user.id == id);
+
+  user.favoriteMovies.filter(title => title !== movieTitle);
+  res.status(200).send('The movie was deleted from your favorites.');
 });
 
 app.delete('/user/:id/watchlist/delete/:title', (req, res) => {
-  res.status(201).send(title + ' was deleted from your favorites.');
+  const { id, movieTitle } = req.params;
+  
+  let user = users.find(user => user.id == id);
+
+  user.watchlistMovies.filter(title => title !== movieTitle);
+  res.status(200).send('The movie was deleted from your favorites.');
 });
+
 
 //error handling with express
 app.use((err, req, res, next) => {

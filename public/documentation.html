@@ -78,34 +78,47 @@
             <td>:username</td>
             <td>JSON object holding desired username<br>
                 <p> { <br>
-                   username: 'Jane Doe'<br>
+                   "username": "Jane Doe"<br>
                     }
                 </p>
             </td>
-            <td>Status 201 and return user created data with id
+            <td>JSON object holding user data with id assigned <br>
                 <p> { <br>
-                    id: 13<br>
-                    username: 'Jane Doe'<br>
-                    password: 'xxxxxxxx'<br>
+                    "id": 13<br>
+                    "username": 'Jane Doe'<br>
+                    "favoriteMovies": "[]"<br>
+                    "watchlistMovies": "[]"<br>
                      }
                  </p>
             </td>
         </tr>
         <tr>
             <td>Update User Info</td>
-            <td>/users/update/[id]</td>
+            <td>/user/[id]</td>
             <td class="code">PUT</td>
             <td>:id</td>
-            <td>none</td>
-            <td>Text response</td>
+            <td>JSON object holding user data<br>
+                <p> { <br>
+                    "username": "Jane Doe"<br>
+                    }
+                </p> </td>
+            <td>JSON object containing updated user data<br>
+                <p>{<br>
+                    "id": "13" <br>
+                    "username": "Jane Doe" <br>
+                    "favoriteMovies": "[]" <br>
+                    "watchlistMovies": "[]" <br>
+                    }
+                </p>
+            </td>
         </tr>
         <tr>
             <td>Delete User Account</td>
-            <td>/users/delete/[id]</td>
+            <td>/user/delete/[id]</td>
             <td class="code">DELETE</td>
             <td>:id</td>
             <td>none</td>
-            <td>Text response</td>
+            <td>Text response indicating user has been deleted.</td>
         </tr>
         <tr>
             <td>Add Movie to Favorites</td>
@@ -113,7 +126,7 @@
             <td class="code">PUT</td>
             <td>:id, :title </td>
             <td>none</td>
-            <td>Text response indicating movie title was added to your favorites.</td>
+            <td>Text response indicating movie was added to your favorites.</td>
         </tr>
         <tr>
             <td>Add Movie to Watchlist</td>
@@ -121,7 +134,7 @@
             <td class="code">PUT</td>
             <td>:id, :title</td>
             <td>none</td>
-            <td>Text response indicating movie title was added to your watchlist.</td>
+            <td>Text response indicating movie was added to your watchlist.</td>
         </tr>
         <tr>
             <td>Remove Movie from Favorites</td>
@@ -129,7 +142,7 @@
             <td class="code">DELETE</td>
             <td>:id, :title </td>
             <td>none</td>
-            <td>Text response indicating movie title was  removed from your favorites.</td>
+            <td>Text response indicating movie was removed from your favorites.</td>
         </tr>
         <tr>
             <td>Remove Movie from Watchlist</td>
@@ -137,7 +150,7 @@
             <td class="code">DELETE</td>
             <td>:id, :title</td>
             <td>none</td>
-            <td>Text response indicating movie title was removed from your watchlist.</td>
+            <td>Text response indicating movie was removed from your watchlist.</td>
         </tr>
     </table>
 </body>
