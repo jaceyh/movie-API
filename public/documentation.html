@@ -49,7 +49,7 @@
         </tr>
         <tr>
             <td>Get data for a single movie</td>
-            <td>/movies/[title]</td>
+            <td>/movies/[name]</td>
             <td class="code">GET</td>
             <td>:title</td>
             <td>none</td>
@@ -57,7 +57,7 @@
         </tr>
         <tr>
             <td>Get data for a director</td>
-            <td>/movies/director/[director]</td>
+            <td>/directors/[name]</td>
             <td class="code">GET</td>
             <td>:director</td>
             <td>none</td>
@@ -65,7 +65,7 @@
         </tr>
         <tr>
             <td>Get data for a tag</td>
-            <td>/movies/tags/[tag]</td>
+            <td>/tags/[tag]</td>
             <td class="code">GET</td>
             <td>:tag</td>
             <td>none</td>
@@ -73,12 +73,15 @@
         </tr>
         <tr>
             <td>Create user account</td>
-            <td>/user</td>
+            <td>/users</td>
             <td class="code">POST</td>
-            <td>:username</td>
-            <td>JSON object holding desired username<br>
+            <td>none</td>
+            <td>JSON object holding desired username, password, email address, and birthdate<br>
                 <p> { <br>
                    "username": "Jane Doe"<br>
+                   "password": "xxxx1234"<br>
+                   "email": "xxx123@x.com"<br>
+                   "birthdate": "1987-02-22"<br>
                     }
                 </p>
             </td>
@@ -86,6 +89,9 @@
                 <p> { <br>
                     "id": 13<br>
                     "username": 'Jane Doe'<br>
+                    "password": "xxxx1234"<br>
+                    "email": "xxx123@x.com"<br>
+                    "birthdate": "1987-02-22"<br>
                     "favoriteMovies": "[]"<br>
                     "watchlistMovies": "[]"<br>
                      }
@@ -94,7 +100,7 @@
         </tr>
         <tr>
             <td>Update User Info</td>
-            <td>/user/[id]</td>
+            <td>/users/[id]</td>
             <td class="code">PUT</td>
             <td>:id</td>
             <td>JSON object holding user data<br>
@@ -114,7 +120,7 @@
         </tr>
         <tr>
             <td>Delete User Account</td>
-            <td>/user/delete/[id]</td>
+            <td>/users/delete/[id]</td>
             <td class="code">DELETE</td>
             <td>:id</td>
             <td>none</td>
