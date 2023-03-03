@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 let movieSchema = mongoose.Schema({
     Title: {type: String, required: true},
     Director: [{type: mongoose.Schema.Types.ObjectId, ref: 'Director'},
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Director'}],
-    Tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'},
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Director', required:false}],
     ImagePath: {type: String},
     Description: {type: String, required: true},
+    Tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'},
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
     Featured: {type: Boolean}
 });
 
@@ -18,7 +18,8 @@ let tagSchema = mongoose.Schema({
 
 let dirSchema = mongoose.Schema({
     Name: {type: String},
-    Bio: {type: String}
+    Bio: {type: String},
+    Born: {type: Date}
 })
 
 
