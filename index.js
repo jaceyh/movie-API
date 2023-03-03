@@ -10,7 +10,7 @@ const express = require ('express'),
 const Movies = Models.Movie;
 const Users = Models.User;
 const Tags = Models.Tag;
-const Directors = Models.Director
+const Directors = Models.Director;
 
 const app = express();
 
@@ -26,75 +26,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {f
 // setup the logger
 app.use(morgan('combined', {stream: accessLogStream}));
 
-/*
-let movies = [
-    {
-      title: 'Free Solo',
-      director: 'Jimmy Chin Elizabeth Chai Vasarhelyi',
-      tags: 'action',
-    },
-    {
-      title: '13th',
-      director: 'Ava DuVernay',
-      tags: 'socio-cultural, history'
-    },
-    {
-      title: 'My Octopus Teacher',
-      director: 'Pippa Ehrlich James Reed',
-      tags: 'animals',
-    },
-    {
-      title: 'Blackfish',
-      director: 'Gabriele Cowperthwaite',
-      tags: 'socio-cultural, animals',
-    },
-    {
-      title: 'The Last Breath',
-      director: 'Richard da Costa Alex Parkinson',
-      tags: 'action',
-    },
-    {
-      title: 'The Volcano: Rescue from Whakaari',
-      director: 'Rory Kennedy',
-      tags: 'action, natural disaster',
-    },
-    {
-      title: 'The Alpinist',
-      director: 'Peter Mortimer Nick Rosen ',
-      tags: 'action',
-    },    
-    {
-      title: 'Aftershock',
-      director: 'Paula Eiselt Tonya Lewis Lee ',
-      tags: 'action, natural disaster',
-    },
-    {
-      title: 'Challenger: The Final Flight',
-      director: 'Daniel Junge Steven Leckart',
-      tags: 'action, historical',
-    },
-    {
-      title: 'Citizenfour',
-      director: 'Laura Poitras',
-      tags: 'socio-cultural',
-    },
-  ];
 
-let users = [
-  {
-    id: "1",
-    username: "jaceyh",
-    favoriteMovies: [],
-    watchlistMovies: [],
-  },
-  {
-    id: "2",
-    username: "leetj",
-    favoriteMovies: [],
-    watchlistMovies: [],
-  }
-];
-*/
 
 // GET requests
 app.get('/', (req, res) => {
@@ -236,6 +168,24 @@ app.put('/users/:Username', (req, res) => {
   });
 });
 
+
+// Add a movie to a user's list of favorites
+app.post('/users/:Username/movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username }, {
+     $push: { FavoriteMovies: req.params.MovieID }
+   },
+   { new: true }, // This line makes sure that the updated document is returned
+  (err, updatedUser) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    } else {
+      res.json(updatedUser);
+    }
+  });
+});
+
+
 /*
 app.put('/user/:id', (req, res) => {
   const { id } = req.params;
@@ -273,6 +223,23 @@ app.put('/user/:id/watchlist/:title', (req, res) => {
 */
 
 //DELETE Remove from favorites or watchlist
+
+//Delete a user by username
+app.delete('/users/:Username', (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
 app.delete('/user/:id/favorites/delete/:title', (req, res) => {
   const { id, movieTitle } = req.params;
   
