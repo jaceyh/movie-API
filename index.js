@@ -30,12 +30,19 @@ app.use(morgan('combined', {stream: accessLogStream}));
 
 // GET requests
 app.get('/', (req, res) => {
-    res.send('Welcome to jMDB');
+  res.send('Welcome to jMDB');
   });
 
 app.get('/movies', (req, res) => {
+  Movies.find()
+  .then((movies) => {
     res.status(200).json(movies);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
   });
+});  
 
 app.get('/movies/:title', (req, res) => {
   res.json(movies.find((movie) =>
@@ -186,42 +193,6 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 
-/*
-app.put('/user/:id', (req, res) => {
-  const { id } = req.params;
-  const updatedUser = req.body;
-
-  let user = users.find(user => user.id == id);
-
-  if (user) {
-    user.username = updatedUser.username;
-    res.status(200).json(user);
-  } else {
-    res.status(400).send('User not found.')
-  }
-});
-
-app.put('/user/:id/favorites/:title', (req, res) => {
-  const { id, movieTitle } = req.params;
-  
-  let user = users.find(user => user.id == id);
-
-    user.favoriteMovies.push(movieTitle);
-    res.status(200).send('Movie was added to your favorites.');
-  }
-);
-
-app.put('/user/:id/watchlist/:title', (req, res) => {
-  const { id, movieTitle } = req.params;
-  
-  let user = users.find(user => user.id == id);
-
-    user.watchlistMovies.push(movieTitle);
-    res.status(200).send('Movie was added to your watchlist.');
-  }
-);
-*/
-
 //DELETE Remove from favorites or watchlist
 
 //Delete a user by username
@@ -249,22 +220,12 @@ app.delete('/user/:id/favorites/delete/:title', (req, res) => {
   res.status(200).send('The movie was deleted from your favorites.');
 });
 
-app.delete('/user/:id/watchlist/delete/:title', (req, res) => {
-  const { id, movieTitle } = req.params;
-  
-  let user = users.find(user => user.id == id);
-
-  user.watchlistMovies.filter(title => title !== movieTitle);
-  res.status(200).send('The movie was deleted from your favorites.');
-});
-
 
 //error handling with express
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
   });
-
 
   
 // listen for requests

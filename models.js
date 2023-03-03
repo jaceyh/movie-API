@@ -19,7 +19,7 @@ let tagSchema = mongoose.Schema({
 let dirSchema = mongoose.Schema({
     Name: {type: String},
     Bio: {type: String},
-    Born: {type: Date}
+    Born: Date
 })
 
 
@@ -28,7 +28,7 @@ let userSchema = mongoose.Schema({
     Password: {type: String, required: true},
     Email: {type: String, required: true},
     Birthday: Date,
-    FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
+    FavMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
   });
 
 let Movie = mongoose.model('Movie', movieSchema);
