@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let movieSchema = mongoose.Schema({
-    Title: {type: String, required: true},
+    Name: {type: String, required: true},
     Director: [{type: mongoose.Schema.Types.ObjectId, ref: 'Director'},
     {type: mongoose.Schema.Types.ObjectId, ref: 'Director', required:false}],
     ImagePath: {type: String},

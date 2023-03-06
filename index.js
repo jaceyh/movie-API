@@ -26,6 +26,8 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {f
 // setup the logger
 app.use(morgan('combined', {stream: accessLogStream}));
 
+app.use('/documentation.html', express.static('public/documentation.html'));
+
 
 
 // GET requests
@@ -44,22 +46,46 @@ app.get('/movies', (req, res) => {
   });
 });  
 
-app.get('/movies/:title', (req, res) => {
-  res.json(movies.find((movie) =>
-    { return movie.title === req.params.title }));
-  });
+app.get('/movies/:Name', (req, res) => {
+  Movies.findOne({ Name: req.params.Name })
+  .then(movie => {
+  res.json(movie);
+ })
+ .catch(err => {
+  console.error(err);
+  res.status(500).send('Something broke!' + err);
+ });
+});
 
-app.get('/movies/director/:director', (req, res) => {
-  res.json(movies.find((movie) =>  
-    { return movie.director === req.params.director }));
-  });
+/*
+app.get('/movies/director/:directorName', (req, res) => {
+  populateDirector();
+  Movies.findOne({ 'Director.Name' : req.params.directorName })
+  .then(movie => {
+  res.json(movie);
+ })
+ .catch(err => {
+  console.error(err);
+  res.status(500).send('Something broke!' + err);
+ });
+});
 
 app.get('/movies/tags/:tags', (req, res) => {
     res.json(movies.find((movie) =>
       { return movie.tags === req.params.tags }));
   });
+*/
   
-app.use('/documentation.html', express.static('public/documentation.html'));
+app.get('/director/:Name', (req, res) => {
+  Directors.findOne({ Name : req.params.Name})
+  .then(director => {
+    res.json(director);
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).send('Something broke!' + err);
+  });
+});
 
 // Get all users
 app.get('/users', (req, res) => {
@@ -122,8 +148,6 @@ app.post('/users', (req, res) => {
       res.status(500).send('Error: ' + error);
     });
 });
-
-
 
 
 
@@ -193,7 +217,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 
-//DELETE Remove from favorites or watchlist
+//DELETE Remove from favorites
 
 //Delete a user by username
 app.delete('/users/:Username', (req, res) => {
@@ -219,6 +243,18 @@ app.delete('/user/:id/favorites/delete/:title', (req, res) => {
   user.favoriteMovies.filter(title => title !== movieTitle);
   res.status(200).send('The movie was deleted from your favorites.');
 });
+
+
+//POPULATE functions
+  function populateDirector () {
+  Movies.
+  find().
+  populate('Director').
+  exec(function(Movie) {
+      Movie.director.name = directorName;
+    })
+  };
+
 
 
 //error handling with express
