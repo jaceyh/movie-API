@@ -226,3 +226,8 @@
 ::1 - - [07/Mar/2023:15:50:49 +0000] "POST /users/mandapanda/movies/Free%20Solo HTTP/1.1" 500 124 "-" "PostmanRuntime/7.31.1"
 ::1 - - [07/Mar/2023:15:51:03 +0000] "POST /users/mandapanda/movies/63f67f00a70891f99acb8594 HTTP/1.1" 200 196 "-" "PostmanRuntime/7.31.1"
 ::1 - - [07/Mar/2023:15:53:29 +0000] "POST /users/mandapanda/movies/63f680fea70891f99acb8597 HTTP/1.1" 200 223 "-" "PostmanRuntime/7.31.1"
+::1 - - [07/Mar/2023:15:57:37 +0000] "GET /tags/action HTTP/1.1" 200 4 "-" "PostmanRuntime/7.31.1"
+::1 - - [07/Mar/2023:15:59:16 +0000] "GET /tags/nature HTTP/1.1" 200 4 "-" "PostmanRuntime/7.31.1"
+::1 - - [07/Mar/2023:15:59:45 +0000] "GET /tags/Nature HTTP/1.1" 200 305 "-" "PostmanRuntime/7.31.1"
+::1 - - [07/Mar/2023:16:00:34 +0000] "GET /movies/director/Jimmy%20Chin HTTP/1.1" 500 - "-" "PostmanRuntime/7.31.1"
+::1 - - [07/Mar/2023:16:03:09 +0000] "DELETE /users/mandapanda/movies/63f67f00a70891f99acb8594 HTTP/1.1" 200 196 "-" "PostmanRuntime/7.31.1"

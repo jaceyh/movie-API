@@ -103,6 +103,17 @@ app.get('/director/:Name', (req, res) => {
   });
 });
 
+app.get('/tags/:Name', (req, res) => {
+  Tags.findOne({ Name : req.params.Name})
+  .then(tag => {
+    res.json(tag);
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).send('Something broke!' + err);
+  });
+});
+
 // Get all users
 app.get('/users', (req, res) => {
   Users.find()
@@ -236,6 +247,21 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 
 
 //DELETE Remove from favorites
+app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+  const MovieID = Movies.ObjectID;
+  Users.findOneAndUpdate({ Username: req.params.Username }, {
+     $pull: { FavMovies: req.params.MovieID }
+   },
+   { new: true }, // This line makes sure that the updated document is returned
+  (err, updatedUser) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    } else {
+      res.json(updatedUser);
+    }
+  });
+});
 
 //Delete a user by username
 app.delete('/users/:Username', (req, res) => {
