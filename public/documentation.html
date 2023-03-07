@@ -94,10 +94,26 @@
                     "email": "xxx123@x.com"<br>
                     "birthdate": "1987-02-22"<br>
                     "favoriteMovies": "[]"<br>
-                    "watchlistMovies": "[]"<br>
                      }
                  </p>
             </td>
+        </tr>
+        <tr>
+            <td>Get your user data</td>
+            <td>/users/[Username]</td>
+            <td class="code">GET</td>
+            <td>:Username</td>
+            <td>JSON object holding password (eventually)</td>
+            <td>JSON object holding user data<br>
+                <p> { <br>
+                    "id": 13<br>
+                    "username": 'Jane Doe'<br>
+                    "password": "xxxx1234"<br>
+                    "email": "xxx123@x.com"<br>
+                    "birthdate": "1987-02-22"<br>
+                    "favoriteMovies": "[]"<br>
+                     }
+                 </p></td>
         </tr>
         <tr>
             <td>Update User Info</td>
@@ -128,9 +144,9 @@
         </tr>
         <tr>
             <td>Add Movie to Favorites</td>
-            <td>/users/[id]/favorites/[movie title]</td>
+            <td>/users/[Username]/movies/[MovieID]</td>
             <td class="code">PUT</td>
-            <td>:id, :title </td>
+            <td>:username, :MovieID </td>
             <td>none</td>
             <td>Text response indicating movie was added to your favorites.</td>
         </tr>

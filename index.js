@@ -31,10 +31,13 @@ app.use('/documentation.html', express.static('public/documentation.html'));
 
 
 // GET requests
+
+//landing
 app.get('/', (req, res) => {
   res.send('Welcome to jMDB');
   });
 
+//GET Movies
 app.get('/movies', (req, res) => {
   Movies.find()
   .then((movies) => {
@@ -63,7 +66,7 @@ app.get('/movies/director/:directorName', (req, res) => {
   res.json(movie);
   })
     .then(function() {
-      const directorName = Movie.Director.Name;
+      const directorName = Movies.Director.Director.Name;
       Movies.find({ directorName: req.params.directorName})
       .then((movie => {
         res.json(movie);
@@ -74,25 +77,21 @@ app.get('/movies/director/:directorName', (req, res) => {
  });
 });
 
-/*
-app.get('/movies/director/:directorName', (req, res) => {
-  populateDirector();
-  Movies.findOne({ 'Director.Name' : req.params.directorName })
+app.get('/movies/tags/:tagName', (req, res) => {
+  Movies.find().then(populateTags)
   .then(movie => {
-  res.json(movie);
- })
- .catch(err => {
-  console.error(err);
-  res.status(500).send('Something broke!' + err);
- });
-});
-
-app.get('/movies/tags/:tags', (req, res) => {
-    res.json(movies.find((movie) =>
-      { return movie.tags === req.params.tags }));
+    res.json(movie);
+  })
+    .then(function () {
+      const tagName = Movies.Tags.Tag.Name;
+      Movies.find({ tagName: req.params.tagName})
+      .then(movie => {
+        res.json(movie);
+      })
+    })
   });
-*/
-  
+
+//GET directors & tags  
 app.get('/director/:Name', (req, res) => {
   Directors.findOne({ Name : req.params.Name})
   .then(director => {
@@ -167,19 +166,20 @@ app.post('/users', (req, res) => {
 });
 
 
-
 //DELETE user account request
-app.delete('/user/delete/:id', (req, res) => {
-  const { id } = req.params;
-
-  let user = users.find(user => user.id == id);
-
-  if (user) {
-    users = users.filter( user => user.id != id );
-    res.status(201).send('User was deleted.');
-  } else {
-    res.status(400).send('User not found.')
-  }
+app.delete('/user/delete/:Username', (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
+  .then((user) => {
+    if (!user) {
+      res.status(400).send(req.params.Username + ' was not found');
+    } else {
+      res.status(200).send(req.params.Username + ' was deleted.');
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
 });
 
 
@@ -219,8 +219,9 @@ app.put('/users/:Username', (req, res) => {
 
 // Add a movie to a user's list of favorites
 app.post('/users/:Username/movies/:MovieID', (req, res) => {
+  const MovieID = Movies.ObjectID;
   Users.findOneAndUpdate({ Username: req.params.Username }, {
-     $push: { FavoriteMovies: req.params.MovieID }
+     $push: { FavMovies: req.params.MovieID }
    },
    { new: true }, // This line makes sure that the updated document is returned
   (err, updatedUser) => {
@@ -263,14 +264,27 @@ app.delete('/user/:id/favorites/delete/:title', (req, res) => {
 
 
 //POPULATE functions
-  function populateDirector () {
+function populateDirector () {
   Movies.
   find().
-  populate('Director').
+  populate({path: 'Director',
+  populate: {path: 'Director'}
+  }).
   exec(function(Movie) {
       Movie.director.name = directorName;
     })
   };
+
+function populateTags () {
+    Movies.
+    find().
+    populate({path: 'Tags',
+    populate: {path: 'Tags'}
+    }).
+    exec(function(Movie) {
+        Movie.tags.name = tagName;
+      })
+    };
 
 
 
