@@ -57,6 +57,23 @@ app.get('/movies/:Name', (req, res) => {
  });
 });
 
+app.get('/movies/director/:directorName', (req, res) => {
+  Movies.find().then(populateDirector)
+  .then(movie => {
+  res.json(movie);
+  })
+    .then(function() {
+      const directorName = Movie.Director.Name;
+      Movies.find({ directorName: req.params.directorName})
+      .then((movie => {
+        res.json(movie);
+      }))})
+  .catch(err => {
+    console.error(err);
+    res.status(500).send('Something broke!' + err);
+ });
+});
+
 /*
 app.get('/movies/director/:directorName', (req, res) => {
   populateDirector();
@@ -166,7 +183,7 @@ app.delete('/user/delete/:id', (req, res) => {
 });
 
 
-//PUT requests (add to favorites, add to watchlist, UPDATE user info)
+//PUT requests (add to favorites and UPDATE user info)
 
 // Update a user's info, by username
 /* We’ll expect JSON in this format
