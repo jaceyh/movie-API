@@ -148,15 +148,15 @@
             <td class="code">PUT</td>
             <td>:username, :MovieID </td>
             <td>none</td>
-            <td>Text response indicating movie was added to your favorites.</td>
+            <td>JSON object containing updated user data</td>
         </tr>
         <tr>
             <td>Remove Movie from Favorites</td>
-            <td>/users/[id]/favorites/delete/[movie title]</td>
+            <td>/users/[username]/movies/delete/[MovieID]</td>
             <td class="code">DELETE</td>
-            <td>:id, :title </td>
+            <td>:username, :MovieID </td>
             <td>none</td>
-            <td>Text response indicating movie was removed from your favorites.</td>
+            <td>JSON object containing updated user data</td>
         </tr>
     </table>
 </body>

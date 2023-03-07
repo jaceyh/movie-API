@@ -247,7 +247,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 
 
 //DELETE Remove from favorites
-app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+app.delete('/users/:Username/movies/delete/:MovieID', (req, res) => {
   const MovieID = Movies.ObjectID;
   Users.findOneAndUpdate({ Username: req.params.Username }, {
      $pull: { FavMovies: req.params.MovieID }
