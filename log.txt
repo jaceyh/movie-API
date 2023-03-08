@@ -237,3 +237,5 @@
 ::1 - - [07/Mar/2023:16:07:51 +0000] "POST /users/mandapanda/movies/63f680fea70891f99acb8597 HTTP/1.1" 200 196 "-" "PostmanRuntime/7.31.1"
 ::1 - - [07/Mar/2023:16:08:21 +0000] "POST /users/mandapanda/movies/63fa4f589855b00e119db1fa HTTP/1.1" 200 223 "-" "PostmanRuntime/7.31.1"
 ::1 - - [07/Mar/2023:16:08:32 +0000] "DELETE /users/mandapanda/movies/delete/63fa4f589855b00e119db1fa HTTP/1.1" 200 196 "-" "PostmanRuntime/7.31.1"
+::ffff:192.168.1.1 - - [08/Mar/2023:16:14:46 +0000] "GET / HTTP/1.1" 200 15 "-" "-"
+::ffff:192.168.1.1 - - [08/Mar/2023:19:00:43 +0000] "GET / HTTP/1.1" 200 15 "-" "-"

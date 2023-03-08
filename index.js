@@ -60,37 +60,6 @@ app.get('/movies/:Name', (req, res) => {
  });
 });
 
-app.get('/movies/director/:directorName', (req, res) => {
-  Movies.find().then(populateDirector)
-  .then(movie => {
-  res.json(movie);
-  })
-    .then(function() {
-      const directorName = Movies.Director.Director.Name;
-      Movies.find({ directorName: req.params.directorName})
-      .then((movie => {
-        res.json(movie);
-      }))})
-  .catch(err => {
-    console.error(err);
-    res.status(500).send('Something broke!' + err);
- });
-});
-
-app.get('/movies/tags/:tagName', (req, res) => {
-  Movies.find().then(populateTags)
-  .then(movie => {
-    res.json(movie);
-  })
-    .then(function () {
-      const tagName = Movies.Tags.Tag.Name;
-      Movies.find({ tagName: req.params.tagName})
-      .then(movie => {
-        res.json(movie);
-      })
-    })
-  });
-
 //GET directors & tags  
 app.get('/director/:Name', (req, res) => {
   Directors.findOne({ Name : req.params.Name})
@@ -287,30 +256,6 @@ app.delete('/user/:id/favorites/delete/:title', (req, res) => {
   user.favoriteMovies.filter(title => title !== movieTitle);
   res.status(200).send('The movie was deleted from your favorites.');
 });
-
-
-//POPULATE functions
-function populateDirector () {
-  Movies.
-  find().
-  populate({path: 'Director',
-  populate: {path: 'Director'}
-  }).
-  exec(function(Movie) {
-      Movie.director.name = directorName;
-    })
-  };
-
-function populateTags () {
-    Movies.
-    find().
-    populate({path: 'Tags',
-    populate: {path: 'Tags'}
-    }).
-    exec(function(Movie) {
-        Movie.tags.name = tagName;
-      })
-    };
 
 
 
