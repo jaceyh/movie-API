@@ -7,6 +7,10 @@ const express = require ('express'),
   mongoose = require('mongoose'),
   Models = require('./models.js');
 
+const  passport = require('passport');
+require('./passport');
+
+
 const Movies = Models.Movie;
 const Users = Models.User;
 const Tags = Models.Tag;
@@ -19,13 +23,15 @@ app.use(bodyParser.json());
 //allow mongoose to connect to [cfDB]
 mongoose.connect('mongodb://localhost:27017/[cfDB]', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// create a write stream (in append mode)
-// a ‘log.txt’ file is created in root directory
+//import auth.js
+let auth = require('./auth')(app);
+
+
+// create a write stream (in append mode) (‘log.txt’ file is created in root directory)
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 
 // setup the logger
 app.use(morgan('combined', {stream: accessLogStream}));
-
 app.use('/documentation.html', express.static('public/documentation.html'));
 
 
