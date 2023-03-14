@@ -23,9 +23,12 @@ app.use(bodyParser.json());
 //allow mongoose to connect to [cfDB]
 mongoose.connect('mongodb://localhost:27017/[cfDB]', { useNewUrlParser: true, useUnifiedTopology: true });
 
+//needs to be before authorization & any middleware (morgan)
+const cors = require('cors');
+app.use(cors());
+
 //import auth.js
 let auth = require('./auth')(app);
-
 
 // create a write stream (in append mode) (‘log.txt’ file is created in root directory)
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
@@ -117,16 +120,10 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false}), (req
 //POST requests
 
 //Add a user
-/* We’ll expect JSON in this format
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}*/
+//We’ll expect JSON in this format
 app.post('/users', (req, res) => {
-  Users.findOne({ Username: req.body.Username })
+  let hashedPassword = Users.hashPassword(req.body.Password);
+  Users.findOne({ Username: req.body.Username }) //search to see if username already exists
     .then((user) => {
       if (user) {
         return res.status(400).send(req.body.Username + 'already exists');
@@ -134,7 +131,7 @@ app.post('/users', (req, res) => {
         Users
         .create({
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
           Birthdate: req.body.Birthday
         })
