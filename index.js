@@ -10,6 +10,7 @@ const express = require ('express'),
 const  passport = require('passport');
 require('./passport');
 
+const { check, validationResult } = require('express-validator');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -121,7 +122,22 @@ app.get('/users/:Username', passport.authenticate('jwt', {session: false}), (req
 
 //Add a user
 //We’ll expect JSON in this format
-app.post('/users', (req, res) => {
+app.post('/users', 
+//Validation logic for request goes here
+[
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+],
+(req, res) => {
+  //check validation object for errors here
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
   let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username }) //search to see if username already exists
     .then((user) => {
@@ -133,7 +149,7 @@ app.post('/users', (req, res) => {
           Username: req.body.Username,
           Password: hashedPassword,
           Email: req.body.Email,
-          Birthdate: req.body.Birthday
+          Birthdate: req.body.Birthdate
         })
         .then((user) =>{res.status(201).json(user)})
         .catch((error) => {
@@ -169,23 +185,27 @@ app.delete('/user/delete/:Username', passport.authenticate('jwt', {session: fals
 //PUT requests (add to favorites and UPDATE user info)
 
 // Update a user's info, by username
-/* We’ll expect JSON in this format
-{
-  Username: String,
-  (required)
-  Password: String,
-  (required)
-  Email: String,
-  (required)
-  Birthday: Date
-}*/
-app.put('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
+// We’ll expect JSON in this format
+app.put('/users/:Username', passport.authenticate('jwt', {session: false}), 
+[
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], 
+(req, res) => {
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
   Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
       Username: req.body.Username,
       Password: req.body.Password,
       Email: req.body.Email,
-      Birthdate: req.body.Birthday
+      Birthdate: req.body.Birthdate
     }
   },
   { new: true }, // This line makes sure that the updated document is returned
