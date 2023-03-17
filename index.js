@@ -21,8 +21,20 @@ const app = express();
 
 app.use(bodyParser.json());
 
-//allow mongoose to connect to [cfDB]
-mongoose.connect('mongodb://localhost:27017/[cfDB]', { useNewUrlParser: true, useUnifiedTopology: true });
+//allow mongoose to connect to jMDB
+// mongoose.connect('mongodb+srv://jaceyhallock:<xepmadVOqse1@jmdb-db.1n9xhuf.mongodb.net/?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true});
+exports.connect = () => {
+  mongoose.set('strictQuery', false);
+  mongoose.connect(process.env.CONNECTION_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .catch((err) => console.error('MongoDb connection failed: ' + err));
+  mongoose.connection.on('error', (err) => {
+    console.error('MongoDb connection error: ' + err);
+  });
+};
+
 
 //needs to be before authorization & any middleware (morgan)
 const cors = require('cors');
