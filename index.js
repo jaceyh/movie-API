@@ -27,7 +27,6 @@ exports.connect = () => {
   mongoose.connect(process.env.CONNECTION_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      socketTimeoutMS: 20000 // Set the default maximum time in milliseconds
     })
     .catch((err) => console.error('MongoDb connection failed: ' + err));
   mongoose.connection.on('error', (err) => {
