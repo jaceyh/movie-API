@@ -27,6 +27,7 @@ exports.connect = () => {
   mongoose.connect(process.env.CONNECTION_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      maxTimeMS: 20000 // Set the default maximum time in milliseconds
     })
     .catch((err) => console.error('MongoDb connection failed: ' + err));
   mongoose.connection.on('error', (err) => {
@@ -150,7 +151,7 @@ app.post('/users',
   }
 
   let hashedPassword = Users.hashPassword(req.body.Password);
-  Users.findOne({ Username: req.body.Username }, { maxTimeMS: 20000 }) //search to see if username already exists
+  Users.findOne({ Username: req.body.Username }) //search to see if username already exists
     .then((user) => {
       if (user) {
         return res.status(400).send(req.body.Username + 'already exists');
