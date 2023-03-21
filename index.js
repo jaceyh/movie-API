@@ -5,6 +5,7 @@ const express = require ('express'),
   uuid = require('uuid'),
   morgan = require('morgan'),
   mongoose = require('mongoose'),
+  dotenv = require('dotenv').config(),
   Models = require('./models.js');
 
 const  passport = require('passport');
@@ -22,9 +23,7 @@ const app = express();
 app.use(bodyParser.json());
 
 //allow mongoose to connect to jMDB
-exports.connect = () => {
-  mongoose.set('strictQuery', false);
-  mongoose.connect(process.env.CONNECTION_URI, {
+mongoose.connect(process.env.CONNECTION_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -32,7 +31,6 @@ exports.connect = () => {
   mongoose.connection.on('error', (err) => {
     console.error('MongoDb connection error: ' + err);
   });
-};
 
 
 //needs to be before authorization & any middleware (morgan)
@@ -296,4 +294,5 @@ const port = process.env.PORT || 8080;
 
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
+ console.log(process.env.TEST);
 });
