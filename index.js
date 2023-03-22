@@ -8,9 +8,6 @@ const express = require ('express'),
   dotenv = require('dotenv').config(),
   Models = require('./models.js');
 
-const  passport = require('passport');
-require('./passport');
-
 const { check, validationResult } = require('express-validator');
 
 const Movies = Models.Movie;
@@ -39,6 +36,9 @@ app.use(cors());
 
 //import auth.js
 let auth = require('./auth')(app);
+
+const passport = require('passport');
+require('./passport');
 
 // create a write stream (in append mode) (‘log.txt’ file is created in root directory)
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
