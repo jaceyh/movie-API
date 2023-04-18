@@ -66,7 +66,7 @@ app.get('/movies'), (req, res) => {
     console.error(err);
     res.status(500).send('Error: ' + err);
   });
-});  
+};  
 
 app.get('/movies/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.findOne({ Name: req.params.Name })
