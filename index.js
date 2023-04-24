@@ -68,7 +68,7 @@ app.get('/movies'), (req, res) => {
   });
 };  
 
-app.get('/movies/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/movies/:Name', (req, res) => {
   Movies.findOne({ Name: req.params.Name })
   .then(movie => {
   res.json(movie);
