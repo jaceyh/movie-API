@@ -58,7 +58,10 @@ app.get('/', (req, res) => {
 
 //GET Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.find()
+  Movies.find().
+  populate('Director');
+  Movies.find().
+  populate('Tags')
   .then((movies) => {
     res.status(200).json(movies);
   })
@@ -69,7 +72,12 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
 });  
 
 app.get('/movies/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
-  Movies.findOne({ Name: req.params.Name })
+  Movies.findOne({ Name: req.params.Name }).
+  populate('director').
+  exec(function(err, movie) {
+    if (err) return ('Nice try Jace' + err);
+    console.log('The director is' + movie.director);
+  })
   .then(movie => {
   res.json(movie);
  })
