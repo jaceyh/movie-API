@@ -60,12 +60,14 @@ app.get('/', (req, res) => {
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     Directors.find()
     .populate("Director")
+    .then(Director => console.log(Director))
     .catch((err) => {
         console.error(err);
     })
     .then
         Tags.find()
         .populate("Tags")
+        .then(Tags => console.log(Tags))
         .catch((err) =>{
             console.error(err);
         })
