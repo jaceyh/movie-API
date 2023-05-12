@@ -58,10 +58,22 @@ app.get('/', (req, res) => {
 
 //GET Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.find()
-  .then((movies) => {
-    res.status(200).json(movies);
-  })
+    Directors.find()
+    .populate("Directors")
+    .catch((err) => {
+        console.error(err);
+    })
+    .then
+        Tags.find()
+        .populate("Tags")
+        .catch((err) =>{
+            console.error(err);
+        })
+        .then
+            Movies.find()
+            .then((movies) => {
+                res.status(200).json(movies);
+            })
   .catch((err) => {
     console.error(err);
     res.status(500).send('Error: ' + err);
