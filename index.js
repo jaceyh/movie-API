@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
 //GET Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     Directors.find()
-    .populate("Directors")
+    .populate("Director")
     .catch((err) => {
         console.error(err);
     })
