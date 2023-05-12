@@ -58,29 +58,21 @@ app.get('/', (req, res) => {
 
 //GET Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-    Directors.find()
-    .populate("Director")
-    .then(Director => console.log(Director))
-    .catch((err) => {
-        console.error(err);
-    })
-    .then
-        Tags.find()
-        .populate("Tags")
-        .then(Tags => console.log(Tags))
-        .catch((err) =>{
-            console.error(err);
-        })
-        .then
-            Movies.find()
-            .then((movies) => {
-                res.status(200).json(movies);
+    Movies.find()
+        .populate('Director')
+        .populate('Tags')
+        .then((movies) => {
+            movies.forEach(movie => {
+                movie.director = movie.director.map(director => director.name);
+                movie.tags = movie.tags.map( tag => tag.name);
+            });
+            res.status(200).json(movies);
             })
   .catch((err) => {
     console.error(err);
     res.status(500).send('Error: ' + err);
   });
-});  
+  });
 
 app.get('/movies/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.findOne({ Name: req.params.Name })
