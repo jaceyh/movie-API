@@ -63,8 +63,8 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
         .populate('Tags')
         .then((movies) => {
             movies.forEach(movie => {
-                movie.director = movie.director.map(director => director.name);
-                movie.tags = movie.tags.map( tag => tag.name);
+                movie.director = movie.director.map(director => director.Name);
+                movie.tags = movie.tags.map( tag => tag.Name);
             });
             res.status(200).json(movies);
             })
