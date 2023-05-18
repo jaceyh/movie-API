@@ -1,17 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-let movieSchema = mongoose.Schema({
-    Name: {type: String, required: true},
-    Director: [{type: mongoose.Schema.Types.ObjectId, ref: 'Director'},
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Director', required:false}],
-    ImagePath: {type: String},
-    Description: {type: String, required: true},
-    Tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'},
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
-    Featured: {type: Boolean}
-});
-
 let tagSchema = mongoose.Schema({
     Name: {type: String},
     Description: {type: String}
@@ -23,13 +12,24 @@ let dirSchema = mongoose.Schema({
     Born: Date
 })
 
+let movieSchema = mongoose.Schema({
+    Name: {type: String, required: true},
+    Director: [{type: mongoose.Schema.Types.ObjectId, ref: 'Director'},
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Director', required:false}],
+    ImagePath: {type: String},
+    Description: {type: String, required: true},
+    Tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'},
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
+    Featured: {type: Boolean}
+})
+
 let userSchema = mongoose.Schema({
     Username: {type: String, required: true},
     Password: {type: String, required: true},
     Email: {type: String, required: true},
     Birthdate: Date,
     FavMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
-  });
+  })
 
   userSchema.statics.hashPassword = (password) => {
     return bcrypt.hashSync(password, 10);
