@@ -60,9 +60,7 @@ app.get('/', (req, res) => {
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movies.find()
         .populate('director')
-        console.log('director')
         .populate('tags')
-        console.log('tags')
         .then((movies) => {
             movies.forEach(movie => {
                 movie.director = movie.director.map(director => director.Name);
