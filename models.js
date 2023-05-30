@@ -14,12 +14,10 @@ let dirSchema = mongoose.Schema({
 
 let movieSchema = mongoose.Schema({
     Name: {type: String, required: true},
-    Director: [{type: mongoose.Schema.Types.ObjectId, ref: 'Director'},
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Director', required:false}],
+    Director: [{type: mongoose.Schema.Types.ObjectId, ref: 'Director',required:false}],
     ImagePath: {type: String},
     Description: {type: String, required: true},
-    Tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'},
-    {type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
+    Tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
     Featured: {type: Boolean}
 })
 
