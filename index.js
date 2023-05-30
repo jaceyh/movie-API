@@ -61,7 +61,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
     const results = Movies.aggregate([
         {
             '$lookup': {
-                'from': 'Directors',
+                'from': 'directors',
                 'localField': 'Director',
                 'foreignField': '_id',
                 'as': 'directorInfo'
@@ -73,7 +73,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
             }
         }, {
             '$lookup': {
-                'from': 'Tags',
+                'from': 'tags',
                 'localField': 'Tags',
                 'foreignField': '_id',
                 'as': 'tagInfo'
