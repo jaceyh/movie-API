@@ -58,19 +58,40 @@ app.get('/', (req, res) => {
 
 //GET Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-    Movies.find()
-        .populate('director')
-        .populate('tags')
-        .then((movies) => {
-            movies.forEach(movie => {
-                movie.director = movie.director.map(director => director.Name);
-                movie.tags = movie.tags.map( tag => tag.Name);
-            });
-            res.status(200).json(movies);
+    const results = Movie.aggregate([
+        {
+            '$lookup': {
+                'from': 'Director',
+                'localField': 'Director',
+                'foreignField': '_id',
+                'as': 'directorInfo'
+            }
+        }, {
+            '$unwind': {
+                'path': '$directorInfo',
+                'preserveNullAndEmptyArrays': True
+            }
+        }, {
+            '$lookup': {
+                'from': 'Tags',
+                'localField': 'Tags',
+                'foreignField': '_id',
+                'as': 'tagInfo'
+            }
+        }, {
+            '$unwind': {
+                'path': '$tagInfo',
+                'preserveNullAndEmptyArrays': True
+            }
+        }
+
+    ])
+    .then(results => {
+            res.status(200).json(results);
             })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
   });
   });
 
