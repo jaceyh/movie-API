@@ -61,7 +61,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
     const results = Movies.aggregate([
         {
             '$lookup': {
-                'from': 'Director',
+                'from': 'Directors',
                 'localField': 'Director',
                 'foreignField': '_id',
                 'as': 'directorInfo'
