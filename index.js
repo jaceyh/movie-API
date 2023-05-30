@@ -88,7 +88,8 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
     .then(results => {
         res.status(200).json(results);
         })
-    .catch((err) => {
+    .catch((error) => {
+        console.log("API Error: ", error);
         console.error(err);
         res.status(500).json({ error: 'Something broke!', message: err });
         });
