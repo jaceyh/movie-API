@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
 
 //GET Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const results = Movie.aggregate([
+    const results = Movies.aggregate([
         {
             '$lookup': {
                 'from': 'Director',
