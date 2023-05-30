@@ -101,7 +101,7 @@ app.get('/movies/:Name', passport.authenticate('jwt', {session: false}), (req, r
  })
  .catch(err => {
   console.error(err);
-  res.status(500).send("Something broke!" + err);
+  res.status(500).send(err);
  });
 });
 
