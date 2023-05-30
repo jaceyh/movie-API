@@ -86,13 +86,14 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
         }
     ])
     .then(results => {
-            res.status(200).json(results);
-            })
+        res.status(200).json(results);
+        })
     .catch((err) => {
         console.error(err);
-        res.status(500).send('Error: ' + err);
+        res.status(500).json({ error: 'Something broke!', message: err });
+        });
   });
-  });
+
 
 app.get('/movies/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.findOne({ Name: req.params.Name })
