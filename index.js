@@ -58,41 +58,14 @@ app.get('/', (req, res) => {
 
 //GET Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-    const results = Movies.aggregate([
-        {
-            '$lookup': {
-                'from': 'directors',
-                'localField': 'Director',
-                'foreignField': '_id',
-                'as': 'directorInfo'
-            }
-        }, {
-            '$unwind': {
-                'path': '$directorInfo',
-                'preserveNullAndEmptyArrays': True
-            }
-        }, {
-            '$lookup': {
-                'from': 'tags',
-                'localField': 'Tags',
-                'foreignField': '_id',
-                'as': 'tagInfo'
-            }
-        }, {
-            '$unwind': {
-                'path': '$tagInfo',
-                'preserveNullAndEmptyArrays': True
-            }
-        }
-    ])
-    .then(results => {
-        res.status(200).json(results);
+    Movies.find()
+    .then((movies) => {
+        res.status(200).json(movies);
         })
-    .catch((error) => {
-        console.log("API Error: ", error);
+    .catch((err) => {
         console.error(err);
-        res.status(500).json({ error: 'Something broke!', message: err });
-        });
+        res.status(500).send('Error: ' + err);
+    });
   });
 
 

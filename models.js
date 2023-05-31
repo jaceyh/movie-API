@@ -1,23 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-let tagSchema = mongoose.Schema({
-    Name: {type: String},
-    Description: {type: String}
-})
-
-let dirSchema = mongoose.Schema({
-    Name: {type: String},
-    Bio: {type: String},
-    Born: {type: Date}
-})
-
 let movieSchema = mongoose.Schema({
     Name: {type: String, required: true},
-    Director: [{type: mongoose.Schema.Types.ObjectId, ref: 'Director',required:false}],
+    Director: [{ Name: String, Description: String, required:false}],
     ImagePath: {type: String},
     Description: {type: String, required: true},
-    Tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
+    Tags: [{ Name: String, Description: String}],
     Featured: {type: Boolean}
 })
 
@@ -39,10 +28,6 @@ let userSchema = mongoose.Schema({
 
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
-let Tag = mongoose.model('Tag', tagSchema);
-let Director = mongoose.model('Director', dirSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
-module.exports.Tag = Tag;
-module.exports.Director = Director;
