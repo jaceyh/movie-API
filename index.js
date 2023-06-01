@@ -59,6 +59,7 @@ app.get('/', (req, res) => {
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movies.find()
     .then((movies) => {
+        console.log('Movies fetched:', movies);
         res.status(200).json(movies);
         })
     .catch((err) => {
