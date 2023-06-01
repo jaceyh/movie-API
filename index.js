@@ -12,8 +12,7 @@ const { check, validationResult } = require('express-validator');
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Tags = Models.Tag;
-const Directors = Models.Director;
+
 
 const app = express();
 
@@ -66,7 +65,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
         console.error(err);
         res.status(500).send('Error: ' + err);
     });
-  });
+});
 
 
 app.get('/movies/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
