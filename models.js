@@ -8,7 +8,7 @@ let movieSchema = mongoose.Schema({
     Description: {type: String, required: true},
     Tags: [{ Name: String, Description: String}],
     Featured: {type: Boolean}
-})
+}, {collection: 'movies'})
 
 let userSchema = mongoose.Schema({
     Username: {type: String, required: true},
