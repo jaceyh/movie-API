@@ -8,7 +8,7 @@ let movieSchema = mongoose.Schema({
     Description: {type: String, required: true},
     Tags: [{ Name: String, Description: String}],
     Featured: {type: Boolean}
-})
+}, {collection: movies})
 
 let userSchema = mongoose.Schema({
     Username: {type: String, required: true},
@@ -26,8 +26,8 @@ let userSchema = mongoose.Schema({
     return bcrypt.compareSync(password, this.Password);
   };
 
-let Movie = mongoose.model('Movie', movieSchema);
-let User = mongoose.model('User', userSchema);
+let Movies = mongoose.model('Movies', movieSchema);
+let Users = mongoose.model('Users', userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
