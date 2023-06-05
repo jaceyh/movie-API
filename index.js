@@ -55,6 +55,10 @@ app.get('/', (req, res) => {
   res.send('Welcome to jMDB');
   });
 
+
+//check URI
+console.log("Connection URI:", process.env.CONNECTION_URI);
+
 //GET Movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movies.find()
