@@ -10,8 +10,8 @@ const express = require ('express'),
 
 const { check, validationResult } = require('express-validator');
 
-const Movies = Models.Movies;
-const Users = Models.Users;
+const Movies = Models.Movie;
+const Users = Models.User;
 
 
 const app = express();
