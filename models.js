@@ -29,5 +29,5 @@ let userSchema = mongoose.Schema({
 let Movies = mongoose.model('Movies', movieSchema);
 let Users = mongoose.model('Users', userSchema);
 
-module.exports.Movie = Movies;
-module.exports.User = Users;
+module.exports.Movies = Movies;
+module.exports.Users = Users;
