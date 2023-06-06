@@ -5,10 +5,10 @@ const express = require ('express'),
   uuid = require('uuid'),
   morgan = require('morgan'),
   mongoose = require('mongoose'),
-  dotenv = require('dotenv').config(),
   Models = require('./models.js');
 
 // Load environment variables from .env file
+require('dotenv').config();
 const result = dotenv.config();
 if (result.error) {
   console.error('Error loading environment variables:', result.error);
