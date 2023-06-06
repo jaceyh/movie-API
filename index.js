@@ -8,12 +8,6 @@ const express = require ('express'),
   Models = require('./models.js'),
   dotenv = require('dotenv').config();
 
-// Load environment variables from .env file
-const result = dotenv.config();
-if (result.error) {
-  console.error('Error loading environment variables:', result.error);
-}
-
 const { check, validationResult } = require('express-validator');
 
 const Movies = Models.Movie;
