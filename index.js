@@ -8,17 +8,24 @@ const express = require ('express'),
   dotenv = require('dotenv').config(),
   Models = require('./models.js');
 
+// Load environment variables from .env file
+const result = dotenv.config();
+if (result.error) {
+  console.error('Error loading environment variables:', result.error);
+}
+
 const { check, validationResult } = require('express-validator');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
-
 const app = express();
 
 app.use(bodyParser.json());
 
+
 //allow mongoose to connect to jMDB
+//CONNECTION_URI is defined in .env file (and as a config variable in Heroku)
 mongoose.connect(process.env.CONNECTION_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
