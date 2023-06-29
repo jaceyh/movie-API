@@ -39,6 +39,7 @@ let auth = require('./auth')(app);
 
 const passport = require('passport');
 require('./passport');
+app.use(passport.initialize());
 
 // create a write stream (in append mode) (‘log.txt’ file is created in root directory)
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
