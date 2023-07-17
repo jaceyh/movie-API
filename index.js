@@ -201,7 +201,7 @@ app.delete('/user/delete/:Username', passport.authenticate('jwt', {session: fals
 //PUT requests (add to favorites and UPDATE user info)
 
 // Update a user's info, by username
-// We’ll expect JSON in this format
+// We’ll expect this in JSON format
 app.put('/users/:Username', passport.authenticate('jwt', {session: false}), 
 [
   check('Username', 'Username is required').isLength({min: 5}),
